@@ -1,0 +1,25 @@
+<nav style="background-color: #0c3c74;" class="navbar navbar-expand-lg">
+    <div style="background-color: #0c3c74;" class="container-fluid">
+        <a class="navbar-brand" routerLink="/" style="color: white;">EmployeeApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a style="color: #fcb600;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Action
+                </a>
+                    <ul class="dropdown-menu" aria-labelledby="masterDropdown">
+                        <li><a class="dropdown-item" routerLink="/employee/new">Add Data</a></li>
+                        <li><a class="dropdown-item" routerLink="/employee/list">Data List</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex justify-content-end">
+                <a class="btn btn-primary me-2" routerLink="/login">Logout</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<router-outlet></router-outlet>

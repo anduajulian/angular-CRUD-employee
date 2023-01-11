@@ -1,0 +1,143 @@
+<div class="container">
+    <h1 class="text-center my-5">Employee Data</h1>
+    <div class="row mb-3">
+      <div class="col">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by:"
+            [(ngModel)]="searchValue"
+          />
+          <div class="mx-2">
+            <select (change)="handleSearchParam($event)">
+              <option *ngFor="let search of searchCategories" [value]="search.value">
+                {{ search.label }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="doSearch()"
+            >
+              Search
+            </button>
+          </div>
+          <button *ngIf="isSearch"
+              class="btn btn-danger mx-2"
+              type="button"
+              (click)="removeSearch()"
+            >
+              Remove
+            </button>
+        </div>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-primary" routerLink="/employee/new">Create</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Birth Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of allData | paginate: {
+                          itemsPerPage: pageSize,
+                          currentPage: page,
+                          totalItems: count
+                        }">
+                            <td scope="row">{{data.id}}</td>
+                            <td>{{data.username}}</td>
+                            <td>{{data.firstName}}</td>
+                            <td>{{data.lastName}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.birthDate | date :'d MMMM y'}}</td>
+                            <td>{{data.status}}</td>
+                            <td class="text-center">
+                                <button style="background-color:yellow" type="button" class="btn mx-2" data-bs-toggle="modal" data-bs-target="#editModal">
+                                  Edit
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
+                                <button type="button" class="btn btn-primary mx-2" (click)="detailEmployee(data.id)">
+                                  Detail
+                              </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-4">
+          Items per Page:
+    <select (change)="handlePageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+        </div>
+        <div class="col-8">
+          <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          [responsive]="true"
+          (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
+        </div>
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="background-color:red" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure want to delete this data ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div style="background-color:yellow" class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Confirmation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure want to edit this data ?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button routerLink="/employee/new" type="button" class="btn btn-primary" data-bs-dismiss="modal">Edit</button>
+          </div>
+      </div>
+  </div>
+</div>
