@@ -30,8 +30,8 @@
               type="button"
               (click)="removeSearch()"
             >
-              Remove
-            </button>
+              Remove Search
+          </button>
         </div>
         </div>
         <div class="col">
@@ -86,7 +86,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-2">
           Items per Page:
     <select (change)="handlePageSizeChange($event)">
       <option *ngFor="let size of pageSizes" [value]="size">
@@ -94,7 +94,25 @@
       </option>
     </select>
         </div>
-        <div class="col-8">
+        <div class="col-2">
+          Sort
+          <select (change)="handleSortParam($event)">
+            <option *ngFor="let search of searchCategories" [value]="search.value">
+              {{ search.label }}
+            </option>
+          </select>
+        </div>
+        <button *ngIf="isSort"
+              class="btn btn-danger col-1"
+              type="button"
+              (click)="removeSort()"
+            >
+              Remove
+          </button>
+          <div *ngIf="!isSort" class="col-1">
+
+          </div>
+        <div class="col-7">
           <pagination-controls
           previousLabel="Prev"
           nextLabel="Next"

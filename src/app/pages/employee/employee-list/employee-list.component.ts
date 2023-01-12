@@ -19,7 +19,9 @@ export class EmployeeListComponent implements OnInit {
   searchValue : string = ""
   searchCategories :any [] = []
   searchBy: keyof Employee = "username"
+  sortBy: keyof Employee = "id"
   isSearch : boolean = false;
+  isSort : boolean = false;
   employeeSubs?:  Subscription
 
   constructor(private router : Router, private employeeService: EmployeeService) { }
@@ -65,6 +67,23 @@ export class EmployeeListComponent implements OnInit {
     this.searchBy = event.target.value;
   }
 
+  handleSortParam(event: any): void {
+    this.sortBy = event.target.value;
+    this.allData = this.allData.sort((a, b) => {
+      let fa = a[this.sortBy].toString().toLowerCase(),
+          fb = b[this.sortBy].toString().toLowerCase();
+
+      if (fa < fb) {
+          return -1;
+      }
+      if (fa > fb) {
+          return 1;
+      }
+      return 0;
+  });
+  this.isSort = true;
+  }
+
   doSearch(): void {
     this.employeeService.setSearch(this.searchValue)
     this.employeeService.setSearchBy(this.searchBy)
@@ -81,6 +100,15 @@ export class EmployeeListComponent implements OnInit {
     this.searchBy = "username"
     this.count = this.allData.length;
     this.isSearch = false;
+  }
+
+  removeSort(): void {
+    this.page = 1;
+    this.sortBy = "username"
+    this.isSort = false;
+    this.allData = this.allData.sort((a, b) => {
+      return a.id - b.id;
+    });
   }
 
   detailEmployee(id: number):void {
