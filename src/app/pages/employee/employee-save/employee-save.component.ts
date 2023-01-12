@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AppComponent} from '../../../app.component';
+import * as listGroup from 'src/app/mock/list-group.json'
+import { EmployeeService } from 'src/app/service/employee.service';
+import { Employee } from 'src/app/model/employee';
 
 @Component({
   selector: 'app-employee-save',
@@ -8,7 +10,7 @@ import {AppComponent} from '../../../app.component';
 })
 export class EmployeeSaveComponent implements OnInit {
 
-  newData : any
+  newData : Employee = new Employee()
   listGroups : any [] = []
   ruleSalary : boolean = false
   ruleBirthDate : boolean = false
@@ -16,24 +18,28 @@ export class EmployeeSaveComponent implements OnInit {
   today : any
   alertDone: boolean = false
 
-  constructor(private base : AppComponent) { }
+  constructor(private employeeService : EmployeeService) { }
 
   ngOnInit(): void {
-    this.newData = this.base.employee
-    this.listGroups = this.base.groupList
+    for(let i in listGroup){
+      if(+i < 10 ){
+        this.listGroups.push(listGroup[i])
+      }
+    }
+
     this.today = new Date ()
   }
 
   submit(): void {
-    const checkNum = this.newData.basicSalary.split('')
+    // const checkNum = this.newData.basicSalary.split('')
     const dataDateTemp = this.newData.birthDate.split("-")
 
     //check input basicsalary
-    if(checkNum.some(isNaN)){
-      this.ruleSalary = true;
-    }else{
-      this.ruleSalary = false
-    }
+    // if(checkNum.some(isNaN)){
+    //   this.ruleSalary = true;
+    // }else{
+    //   this.ruleSalary = false
+    // }
 
     //check email  format
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.newData.email))) {
@@ -43,20 +49,24 @@ export class EmployeeSaveComponent implements OnInit {
     }
 
     //check date
-    if(this.today.getFullYear >= dataDateTemp[2]){
-      if((this.today.getMonth + 1) >= dataDateTemp[1]){
-        if(this.today.getDate > dataDateTemp[0]){
+    if(this.today.getFullYear() >= +dataDateTemp[0]){
+      if((this.today.getMonth() + 1) >= +dataDateTemp[1]){
+        if(this.today.getDate() < +dataDateTemp[2]){
           this.ruleBirthDate = true;
+        }else{
+          this.ruleBirthDate = false;
         }
+      }else{
+        this.ruleBirthDate = false;
       }
     }else{
       this.ruleBirthDate = false;
     }
 
     if(!this.ruleSalary && !this.ruleBirthDate && !this.ruleEmail){
-      this.newData.id = this.base.dataEmployee.length + 1
+      this.newData.id = this.employeeService.dataEmployee.length + 1
       this.newData.status = "Aktif"
-      this.base.dataEmployee.push(this.newData)
+      this.employeeService.insert(this.newData)
       this.alertDone = true;
     }
 

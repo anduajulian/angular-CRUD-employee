@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
-import {AppComponent} from '../../../app.component';
+import { EmployeeService } from 'src/app/service/employee.service';
+import * as listGroup from 'src/app/mock/list-group.json'
+import * as listStatus from 'src/app/mock/list-status.json'
+import { Employee } from 'src/app/model/employee';
 
 @Component({
   selector: 'app-employee-detail',
@@ -10,26 +13,38 @@ import {AppComponent} from '../../../app.component';
 })
 export class EmployeeDetailComponent implements OnInit {
 
-  dataDetail : any
+  dataDetail : Employee = new Employee
   listGroups : any [] = []
   listStatus : any [] = []
   idEmployee : any
 
-  constructor(private base: AppComponent, private activatedRoute: ActivatedRoute) { }
+  constructor(private employeeService: EmployeeService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getData()
-    this.listGroups = this.base.groupList
-    this.listStatus = this.base.statusList
+    for(let i in listStatus){
+      if(+i < 5 ){
+        this.listStatus.push(listStatus[i])
+      }
+    }
+
+    for(let i in listGroup){
+      if(+i < 10 ){
+        this.listGroups.push(listGroup[i])
+      }
+    }
   }
 
   async getData() : Promise<void> {
     try{
       const result = await firstValueFrom(this.activatedRoute.params.pipe(map(result => result)))
       this.idEmployee = (result as any).id
-      this.dataDetail = this.base.dataEmployee[this.idEmployee - 1]
+      this.dataDetail = this.employeeService.getById(this.idEmployee - 1)
     }
-    catch(error){}
+    catch(error){
+      console.log(error);
+
+    }
   }
 
 }
