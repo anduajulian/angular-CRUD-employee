@@ -39,7 +39,7 @@
 
             <div class="col-12 col-md-6 mb-3">
               <label for="basicsalary" class="form-label">Basic Salary<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" [(ngModel)]="newData.basicSalary" name="basicsalary" id="basicsalary" required>
+              <input type="text" class="form-control" (focus) = 'onFocus()' [(ngModel)]="newData.basicSalary" name="basicsalary" id="basicsalary" required>
               <div class="form-control-feedback" *ngIf="ruleSalary">
                 <p  class="text-danger">Number Only</p>
               </div>

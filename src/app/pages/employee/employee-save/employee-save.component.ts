@@ -30,6 +30,14 @@ export class EmployeeSaveComponent implements OnInit {
     this.today = new Date ()
   }
 
+  onFocus(): void {
+    if(isNaN(this.newData.basicSalary)){
+      this.ruleSalary = true
+    }else{
+      this.ruleSalary = false
+    }
+  }
+
   submit(): void {
     // const checkNum = this.newData.basicSalary.split('')
     const dataDateTemp = this.newData.birthDate.split("-")
