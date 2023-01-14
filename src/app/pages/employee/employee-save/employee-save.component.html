@@ -1,63 +1,114 @@
 <div class="container">
 
-    <h1 class="text-center m-4">Add New Data</h1>
+    <h1 class="text-center m-4 pb-2">Add New Data</h1>
     <div *ngIf="alertDone" class="alert-success mx-3">
       Sucess Submit New Data !
     </div>
     <form #formAddData="ngForm">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label for="username" class="form-label">Username<span class="text-danger">*</span></label>
+        <div>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
+              <label for="username" class="form-label">Username<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
                 <input type="text" class="form-control" [(ngModel)]="newData.username" name="username" id="username" required>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
-                <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
+              <label for="firstname" class="form-label">FirstName<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
                 <input type="text" class="form-control" [(ngModel)]="newData.firstName" name="firstname" id="firstname" required>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
-              <label for="lastname" class="form-label">Last Name<span class="text-danger">*</span></label>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
+              <label for="lastname" class="form-label">LastName<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
               <input type="text" class="form-control" [(ngModel)]="newData.lastName" name="lastname" id="lastname" required>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
               <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
               <input type="email" class="form-control" [(ngModel)]="newData.email" name="email" id="email" required>
               <div class="form-control-feedback" *ngIf="ruleEmail">
                 <p  class="text-danger">Email is not valid.</p>
               </div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
               <label for="birthdate" class="form-label">Birthdate<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
               <input type="date" class="form-control" [(ngModel)]="newData.birthDate" name="birthdate" id="birthdate" required>
               <div class="form-control-feedback" *ngIf="ruleBirthDate">
                 <p  class="text-danger">Birthdate over today.</p>
               </div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
               <label for="basicsalary" class="form-label">Basic Salary<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
               <input type="text" class="form-control" (focus) = 'onFocus()' [(ngModel)]="newData.basicSalary" name="basicsalary" id="basicsalary" required>
               <div class="form-control-feedback" *ngIf="ruleSalary">
                 <p  class="text-danger">Number Only</p>
               </div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 mb-3">
-                <label for="group" class="form-label">Group<span class="text-danger">*</span></label>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
+              <label for="group" class="form-label">Status<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
+                <select [(ngModel)]="newData.status" class="form-select" name="status" id="status" required>
+                    <option selected>--select--</option>
+                    <option *ngFor="let status of listStatus" [value]="status">{{status}}</option>
+                  </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2 col-md-1 mb-3">
+              <label for="group" class="form-label">Group<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-6 col-md-5 mb-3">
                 <select [(ngModel)]="newData.group" class="form-select" name="group" id="group" required>
                     <option selected>--select--</option>
                     <option *ngFor="let group of listGroups" [value]="group">{{group}}</option>
                   </select>
             </div>
+          </div>
 
-            <div class="d-flex justify-content-center col my-5">
+          <div class="row pt-1">
+            <div class="col-7"></div>
+            <div class="col-5">
                 <a routerLink="/employee/list" class="btn btn-secondary mx-2">Cancel</a>
                 <button (click)="submit()" class="btn btn-primary" [disabled]="formAddData.form.invalid">
                   Save</button>
             </div>
+          </div>
         </div>
     </form>
 </div>

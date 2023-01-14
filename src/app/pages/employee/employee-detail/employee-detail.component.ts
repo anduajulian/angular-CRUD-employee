@@ -17,6 +17,7 @@ export class EmployeeDetailComponent implements OnInit {
   listGroups : any [] = []
   listStatus : any [] = []
   idEmployee : any
+  salaryIDR: string = ""
 
   constructor(private employeeService: EmployeeService, private activatedRoute: ActivatedRoute) { }
 
@@ -40,6 +41,10 @@ export class EmployeeDetailComponent implements OnInit {
       const result = await firstValueFrom(this.activatedRoute.params.pipe(map(result => result)))
       this.idEmployee = (result as any).id
       this.dataDetail = this.employeeService.getById(this.idEmployee - 1)
+      this.salaryIDR = this.dataDetail.basicSalary.toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+      })
     }
     catch(error){
       console.log(error);

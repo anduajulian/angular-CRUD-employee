@@ -95,7 +95,7 @@ export class EmployeeListComponent implements OnInit {
 
   removeSearch(): void {
     this.page = 1;
-    this.employeeService.getAll().subscribe(employees => this.allData = employees)
+    this.allData = this.employeeService.dataEmployee
     this.searchValue = ""
     this.searchBy = "username"
     this.count = this.allData.length;

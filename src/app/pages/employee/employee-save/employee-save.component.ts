@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as listGroup from 'src/app/mock/list-group.json'
+import * as listStatus from 'src/app/mock/list-status.json'
 import { EmployeeService } from 'src/app/service/employee.service';
 import { Employee } from 'src/app/model/employee';
 
@@ -12,6 +13,7 @@ export class EmployeeSaveComponent implements OnInit {
 
   newData : Employee = new Employee()
   listGroups : any [] = []
+  listStatus : any [] = []
   ruleSalary : boolean = false
   ruleBirthDate : boolean = false
   ruleEmail: boolean = false
@@ -27,6 +29,12 @@ export class EmployeeSaveComponent implements OnInit {
       }
     }
 
+    for(let i in listStatus){
+      if(+i < 10 ){
+        this.listStatus.push(listStatus[i])
+      }
+    }
+
     this.today = new Date ()
   }
 
@@ -39,15 +47,14 @@ export class EmployeeSaveComponent implements OnInit {
   }
 
   submit(): void {
-    // const checkNum = this.newData.basicSalary.split('')
     const dataDateTemp = this.newData.birthDate.split("-")
 
-    //check input basicsalary
-    // if(checkNum.some(isNaN)){
-    //   this.ruleSalary = true;
-    // }else{
-    //   this.ruleSalary = false
-    // }
+    // check input basicsalary
+    if(isNaN(this.newData.basicSalary)){
+      this.ruleSalary = true;
+    }else{
+      this.ruleSalary = false
+    }
 
     //check email  format
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.newData.email))) {
